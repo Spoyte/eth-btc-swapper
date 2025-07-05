@@ -1,0 +1,59 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run tests before deployment
+      run: |
+        npm run lint
+        npm run compile
+        npm run test
+      continue-on-error: false
+      
+    - name: Build application
+      run: npm run build
+      env:
+        NODE_ENV: production
+        
+    - name: Deploy to testnet (if configured)
+      run: npm run deploy:testnet
+      continue-on-error: true
+      env:
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+        
+    # Add your deployment steps here
+    # Examples:
+    # - Deploy to Vercel
+    # - Deploy to AWS
+    # - Deploy to your custom server
+    # - Update smart contracts on mainnet
+    
+    - name: Notify deployment status
+      if: always()
+      run: |
+        if [ ${{ job.status }} == 'success' ]; then
+          echo "✅ Deployment successful"
+        else
+          echo "❌ Deployment failed"
+        fi
