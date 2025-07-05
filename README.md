@@ -80,7 +80,156 @@ PRIVATE_KEY=your_private_key_for_deployment
 ONEINCH_API_KEY=your_1inch_api_key
 ```
 
-## 📁 Project Structure
+## � Deployment to Vercel
+
+### Quick Deploy
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FYOUR_USERNAME%2Feth-btc-swapper&env=NEXT_PUBLIC_BITCOIN_NETWORK,NEXT_PUBLIC_ETHEREUM_CHAIN_ID,NEXT_PUBLIC_APP_NAME,NEXT_PUBLIC_ONEINCH_API_KEY&envDescription=Environment%20variables%20needed%20for%20the%20Bitcoin-Ethereum%20bridge)
+
+### Manual Deployment
+
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login to Vercel**
+   ```bash
+   vercel login
+   ```
+
+3. **Configure Environment Variables**
+   Create a `.env.local` file or set them in Vercel dashboard:
+   ```bash
+   # Required for frontend
+   NEXT_PUBLIC_BITCOIN_NETWORK=testnet
+   NEXT_PUBLIC_ETHEREUM_CHAIN_ID=11155111
+   NEXT_PUBLIC_APP_NAME=Bitcoin-Ethereum Bridge
+   NEXT_PUBLIC_ONEINCH_API_KEY=your_1inch_api_key
+   NEXT_PUBLIC_ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/YOUR_KEY
+   
+   # Optional: For enhanced functionality
+   NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_walletconnect_project_id
+   NEXT_PUBLIC_ENABLE_TESTNETS=true
+   ```
+
+4. **Deploy**
+   ```bash
+   vercel --prod
+   ```
+
+### Automatic Deployment from Git
+
+1. **Connect Repository**
+   - Go to [Vercel Dashboard](https://vercel.com/dashboard)
+   - Click "New Project"
+   - Import your Git repository
+   - Configure environment variables in the dashboard
+
+2. **Build Settings**
+   - **Framework Preset**: Next.js
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `.next`
+   - **Install Command**: `npm install`
+
+3. **Environment Variables**
+   Add these in your Vercel project settings:
+   ```
+   NEXT_PUBLIC_BITCOIN_NETWORK=testnet
+   NEXT_PUBLIC_ETHEREUM_CHAIN_ID=11155111
+   NEXT_PUBLIC_APP_NAME=Bitcoin-Ethereum Bridge
+   NEXT_PUBLIC_ONEINCH_API_KEY=your_1inch_api_key
+   NEXT_PUBLIC_ETHEREUM_RPC_URL=https://sepolia.infura.io/v3/YOUR_KEY
+   ```
+
+### Vercel Configuration
+
+Create a `vercel.json` file in your project root for advanced configuration:
+
+```json
+{
+  "functions": {
+    "pages/api/**/*.js": {
+      "maxDuration": 30
+    }
+  },
+  "env": {
+    "NEXT_PUBLIC_BITCOIN_NETWORK": "testnet",
+    "NEXT_PUBLIC_ETHEREUM_CHAIN_ID": "11155111",
+    "NEXT_PUBLIC_APP_NAME": "Bitcoin-Ethereum Bridge"
+  },
+  "build": {
+    "env": {
+      "NEXT_TELEMETRY_DISABLED": "1"
+    }
+  }
+}
+```
+
+### Troubleshooting Deployment Issues
+
+#### Common Issues and Solutions
+
+1. **Build fails due to Node.js polyfills**
+   - Already handled in `next.config.js` with webpack fallbacks
+   - If issues persist, add to `next.config.js`:
+   ```javascript
+   config.resolve.fallback = {
+     ...config.resolve.fallback,
+     stream: require.resolve('stream-browserify'),
+     buffer: require.resolve('buffer'),
+   };
+   ```
+
+2. **Environment variables not loading**
+   - Ensure variables are prefixed with `NEXT_PUBLIC_` for client-side access
+   - Check Vercel dashboard environment variables settings
+   - Redeploy after adding new environment variables
+
+3. **API routes timeout**
+   - Increase function timeout in `vercel.json`
+   - Optimize API routes for faster response times
+
+4. **Crypto/Bitcoin library issues**
+   - Already configured in `next.config.js`
+   - For additional issues, add to webpack config:
+   ```javascript
+   config.experiments = {
+     ...config.experiments,
+     topLevelAwait: true,
+   };
+   ```
+
+### Production Considerations
+
+- **Environment Variables**: Use production RPC URLs and API keys
+- **Network Configuration**: Switch to mainnet for production deployment
+- **Security**: Never commit private keys or sensitive data
+- **Performance**: Enable Vercel Analytics for monitoring
+- **Caching**: Configure appropriate caching headers for static assets
+
+### Monitoring and Analytics
+
+1. **Enable Vercel Analytics**
+   ```bash
+   npm install @vercel/analytics
+   ```
+
+2. **Add to your `_app.js`**
+   ```javascript
+   import { Analytics } from '@vercel/analytics/react';
+   
+   export default function App({ Component, pageProps }) {
+     return (
+       <>
+         <Component {...pageProps} />
+         <Analytics />
+       </>
+     );
+   }
+   ```
+
+## �📁 Project Structure
 
 ```
 eth-btc-swapper/
