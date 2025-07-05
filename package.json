@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "next": "^14.0.0",
-    "react": "^18.0.0",
+    "react": "^19.1.0",
     "react-dom": "^18.0.0",
     "@1inch/fusion-sdk": "^1.0.0",
     "bitcoinjs-lib": "^6.1.0",
