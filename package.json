@@ -1,0 +1,47 @@
+{
+  "name": "eth-btc-swapper",
+  "version": "1.0.0",
+  "description": "Bitcoin-Ethereum Cross-Chain Swap using 1inch Fusion+",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network sepolia",
+    "bitcoin:test": "node scripts/bitcoin-test.js"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@1inch/fusion-sdk": "^1.0.0",
+    "bitcoinjs-lib": "^6.1.0",
+    "ecpair": "^2.1.0",
+    "tiny-secp256k1": "^2.2.0",
+    "ethers": "^6.8.0",
+    "wagmi": "^1.4.0",
+    "viem": "^1.19.0",
+    "@rainbow-me/rainbowkit": "^1.3.0",
+    "axios": "^1.6.0",
+    "crypto-js": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "typescript": "^5.0.0",
+    "hardhat": "^2.19.0",
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0"
+  },
+  "keywords": ["bitcoin", "ethereum", "cross-chain", "atomic-swap", "1inch", "fusion"],
+  "author": "",
+  "license": "MIT"
+} 
