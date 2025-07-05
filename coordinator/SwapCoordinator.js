@@ -194,6 +194,7 @@ class SwapCoordinator {
         swapState.swapId,
         swapState.ethSide.tokenAddress,
         ethers.parseEther(swapState.ethSide.amount.toString()),
+        ethers.zeroPadValue('0x0000000000000000000000000000000000000000000000000000000000000000', 32), // Placeholder bitcoinTxHash
         ethers.zeroPadValue(swapState.btcSide.secretHash, 32),
         swapState.btcSide.lockTime
       );
@@ -396,7 +397,7 @@ class SwapCoordinator {
    */
   getFusionResolverABI() {
     return [
-      "function initiateSwap(bytes32 swapId, address tokenOut, uint256 amountOut, bytes32 secretHash, uint256 lockTime) external",
+      "function initiateSwap(bytes32 swapId, address tokenOut, uint256 amountOut, bytes32 bitcoinTxHash, bytes32 secretHash, uint256 lockTime) external",
       "function completeSwap(bytes32 swapId, bytes32 secret, bytes calldata bitcoinTxProof, bytes32[] calldata merkleProof) external",
       "function refundSwap(bytes32 swapId, string calldata reason) external",
       "function getSwapOrder(bytes32 swapId) external view returns (tuple(address user, address tokenOut, uint256 amountOut, bytes32 bitcoinTxHash, bytes32 secretHash, uint256 lockTime, uint256 createdAt, uint8 status))",
