@@ -2,9 +2,7 @@ import { useState, useEffect } from 'react';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount, useNetwork } from 'wagmi';
 import SwapInterface from '../components/SwapInterface';
-import SwapHistory from '../components/SwapHistory';
 import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 export default function Home() {
   const { address, isConnected } = useAccount();
@@ -94,10 +92,9 @@ export default function Home() {
                   />
                 )}
                 {activeTab === 'history' && (
-                  <SwapHistory 
-                    swaps={swapHistory}
-                    onRefresh={loadSwapHistory}
-                  />
+                  <div className="text-center py-8">
+                    <p className="text-gray-600">Swap history will be displayed here</p>
+                  </div>
                 )}
               </div>
             </div>
@@ -172,8 +169,6 @@ export default function Home() {
           )}
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 } 

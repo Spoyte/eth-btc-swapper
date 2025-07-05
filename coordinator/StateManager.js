@@ -172,10 +172,13 @@ class StateManager {
       }
 
       const userSwaps = [];
+      const normalizedUserAddress = userAddress.toLowerCase();
       
       for (const [swapId, swapState] of this.swapStates) {
-        if (swapState.ethSide.userAddress === userAddress || 
-            swapState.btcSide.userAddress === userAddress) {
+        const ethAddress = swapState.ethSide.userAddress ? swapState.ethSide.userAddress.toLowerCase() : '';
+        const btcAddress = swapState.btcSide.userAddress ? swapState.btcSide.userAddress.toLowerCase() : '';
+        
+        if (ethAddress === normalizedUserAddress || btcAddress === normalizedUserAddress) {
           userSwaps.push(swapState);
         }
       }
