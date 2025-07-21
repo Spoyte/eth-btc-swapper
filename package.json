@@ -14,7 +14,7 @@
     "bitcoin:test": "node scripts/bitcoin-test.js"
   },
   "dependencies": {
-    "next": "^14.0.0",
+    "next": "^15.4.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "@1inch/fusion-sdk": "^1.0.0",
